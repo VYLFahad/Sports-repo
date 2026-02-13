@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoes Market - Footwear E-commerce</title>
+    <style>
+        /* Modern color palette: Dark gray (#333), White (#fff), Coral Red (#ff6b6b), Light Gray (#f4f4f4) */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            margin: 0 1rem;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #ff6b6b;
+        }
+        .hero {
+            background: url('https://via.placeholder.com/1920x600?text=Hero+Banner') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            margin-top: 80px; /* Account for fixed header */
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .btn {
+            background-color: #ff6b6b;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #e55a5a;
+        }
+        .section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .product {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .product:hover {
+            transform: translateY(-5px);
+        }
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 1rem;
+        }
+        .product-info h3 {
+            margin: 0 0 0.5rem 0;
+        }
+        .rating {
+            color: #ff6b6b;
+        }
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .category {
+            background-color: #333;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .category:hover {
+            background-color: #ff6b6b;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+        }
+        .modal-content img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .size-select {
+            margin: 1rem 0;
+        }
+        .size-select select {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .cart {
+            position: fixed;
+            top: 80px;
+            right: 0;
+            width: 300px;
+            height: calc(100vh - 80px);
+            background-color: #fff;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        .cart.open {
+            transform: translateX(0);
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+        .newsletter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .newsletter input {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .newsletter .btn {
+            border-radius: 0 4px 4px 0;
+        }
+        .social-links {
+            margin-top: 1rem;
+        }
+        .social-links a {
+            color: #fff;
+            margin: 0 0.5rem;
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+            .products {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .cart {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Shoes Market</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#men">Men</a></li>
+                <li><a href="#women">Women</a></li>
+                <li><a href="#kids">Kids</a></li>
+                <li><a href="#new-arrivals">New Arrivals</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="btn" onclick="toggleCart()">Cart (0)</button>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <h1>Step Into Style</h1>
+        <p>Discover the perfect pair for every occasion</p>
+        <a href="#products" class="btn">Shop Now</a>
+    </section>
+
+    <section id="products" class="section">
+        <h2>Our Products</h2>
+        <div class="categories">
+            <div class="category" onclick="filterCategory('all')">All</div>
+            <div class="category" onclick="filterCategory('sports')">Sports</div>
+            <div class="category" onclick="filterCategory('casual')">Casual</div>
+            <div class="category" onclick="filterCategory('formal')">Formal</div>
+            <div class="category" onclick="filterCategory('sneakers')">Sneakers</div>
+        </div>
+        <div class="products" id="product-list">
+            <!-- Products will be dynamically added here -->
+        </div>
+    </section>
+
+    <section id="featured" class="section">
+        <h2>Featured Products & Best Sellers</h2>
+        <div class="products" id="featured-list">
+            <!-- Featured products will be added here -->
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2>Contact Us</h2>
+        <div class="contact-form">
+            <form>
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <textarea placeholder="Message" rows="5" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+        <div class="store-details">
+            <p><strong>Address:</strong> 123 Shoe Street, Fashion City, FC 12345</p>
+            <p><strong>Phone:</strong> (123) 456-7890</p>
+            <p><strong>Email:</strong> info@shoesmarket.com</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="newsletter">
+            <input type="email" placeholder="Subscribe to our newsletter">
+            <button class="btn">Subscribe</button>
+        </div>
+        <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+        </div>
+        <p>&copy; 2023 Shoes Market. All rights reserved.</p>
+    </footer>
+
+    <!-- Product Details Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span onclick="closeModal()" style="float:right; cursor:pointer; font-size:1.5rem;">&times;</span>
+            <img id="modal-image" src="" alt="">
+            <h3 id="modal-name"></h3>
+            <p id="modal-description"></p>
+            <p><strong>Price:</strong> $<span id="modal-price"></span></p>
+            <div class="size-select">
+                <label for="size">Size:</label>
+                <select id="size">
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                </select>
+            </div>
+            <button class="btn" onclick="addToCart()">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Shopping Cart -->
+    <div id="cart" class="cart">
+        <h3>Shopping Cart</h3>
+        <div id="cart-items"></div>
+        <button class="btn" onclick="checkout()">Checkout</button>
+    </div>
+
+    <script>
+        // Sample product data
+        const products = [
+            { id: 1, name: 'Running Shoes', category: 'sports', price: 120, rating: 4.5, image: 'https://via.placeholder.com/250x200?text=Running+Shoes', description: 'Comfortable running shoes for athletes.' },
+            { id: 2, name: 'Casual Sneakers', category: 'casual', price: 80, rating: 4.2, image: 'https://via.placeholder.com/250x200?text=Casual+Sneakers', description: 'Stylish sneakers for everyday wear.' },
+            { id: 3, name: 'Formal Oxfords', category: 'formal', price: 150, rating: 4.8, image: 'https://via.placeholder.com/250x200?text=Formal+Oxfords', description: 'Elegant formal shoes for business.' },
+            { id: 4, name: 'Basketball Shoes', category: 'sports', price: 140, rating: 4.6, image: 'https://via.placeholder.com/250x200?text=Basketball+Shoes', description: 'High-performance basketball shoes.' },
+            { id: 5, name: 'Kids Boots', category: 'kids', price: 60, rating: 4.3, image: 'https://via.placeholder.com/250x200?text=Kids+Boots', description: 'Durable boots for kids.' },
+            { id: 6, name: 'High-Top Sneakers', category: 'sneakers', price: 100, rating: 4.4, image: 'https://via.placeholder.com/250x200?text=High-Top+Sneakers', description: 'Trendy high-top sneakers.' }
+        ];
+
+        const featuredProducts = products.slice(0, 4); // First 4 as featured
+        let cart = [];
+        let currentProduct = null;
+
+        // Load products on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts(products);
+            loadFeatured(featuredProducts);
+        });
+
+        function loadProducts(productList) {
+            const productContainer = document.getElementById('product-list');
+            productContainer.innerHTML = '';
+            productList.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p>$${product.price}</p>
+                        <div class="rating">★★★★☆ (${product.rating})</div>
+                        <button class="btn" onclick="openModal(${product.id})">View Details</button>
+                        <button class="btn" onclick="quickAddToCart(${product.id})">Add to Cart</button>
+                    </div>
+                `;
+                productContainer.appendChild(productDiv);
+            });
+        }
+
+        function loadFeatured(featuredList) {
+            const featuredContainer = document.getElementById('featured-list');
+            featuredContainer.innerHTML = '';
+            featuredList.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p>$${product.price}</p>
+                        <div class="rating">★★★★☆ (${product.rating})</div>
+                        <button class="btn" onclick="openModal(${product.id})">View Details</button>
+                        <button class="btn" onclick="quickAddToCart(${product.id})">Add to Cart</button>
+                    </div>
+                `;
+                featuredContainer.appendChild(productDiv);
+            });
+        }
+
+        function filterCategory(category) {
+            if (category === 'all') {
+                loadProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                loadProducts(filtered);
+            }
+        }
+
+        function openModal(id) {
+            currentProduct = products.find(p => p.id === id);
+            document.getElementById('modal-image').src = currentProduct.image;
+            document.getElementById('modal-name').textContent = currentProduct.name;
+            document.getElementById('modal-description').textContent = currentProduct.description;
+            document.getElementById('modal-price').textContent = currentProduct.price;
+            document.getElementById('product-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').style.display = 'none';
+        }
+
+        function addToCart() {
+            const size = document.getElementById('size').value;
+            cart.push({ ...currentProduct, size });
+            updateCart();
+            closeModal();
+        }
+
+        function quickAddToCart(id) {
+            const product = products.find(p => p.id === id);
+            cart.push({ ...product, size: '8' }); // Default size
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    <span>${item.name} (Size: ${item.size}) - $${item.price}</span>
+                    <button onclick="removeFromCart(${index})">Remove</button>
+                `;
+                cartItems.appendChild(itemDiv);
+            });
+            document.querySelector('nav .btn').textContent = `Cart (${cart.length})`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function toggleCart() {
+            document.getElementById('cart').classList.toggle('open');
+        }
+
+        function checkout() {
+            alert('Checkout functionality not implemented. This is front-end only.');
+        }
+    </script>
+</body>
+</html>
